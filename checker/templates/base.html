@@ -3,7 +3,7 @@
     <head>
         <meta charset="utf-8">
         <meta http-equiv="X-UA-Compatible" content="IE=edge">
-        <title>Code Checker</title>
+        <title>Code Checkerrrr</title>
         <meta name="description" content="">
         <meta name="viewport" content="width=device-width, initial-scale=1">
         <link rel="stylesheet" href="{% static 'styles.css' %}">
@@ -11,6 +11,12 @@
     <body>
         <header>
             {% include "header.html" %}
-        <header>
+        </header>
+        <content>
+            {% block content %}No content.{% endblock %}
+        </content>
+        {% comment %} <footer> {% endcomment %}
+            {% comment %} {% include "footer.html" %} {% endcomment %}
+        {% comment %} </footer> {% endcomment %}
     </body>
 </html>

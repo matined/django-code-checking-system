@@ -1,10 +1,13 @@
 {% load static %}
-
-<div class="header-wrapper">
-    <div class="brand">
-        <img src="{% static 'logo.png' %}" alt="Logo">
-        <span id="name">Code Checker</span>
-    </div>
-    <nav class="nav">
-    </nav>
+<div class="header-left">
+        <img src="{% static "logo.png" %}" alt="Logo" class="logo">
+        <span>Code Checker</span>
 </div>
+<nav class="header-right">
+    <ul>
+        <li><a href="/check-new-code">Check New Code</a></li>
+        <li><a href="/history">History</a></li>
+        <li><a href="/profile">Profile</a></li>
+        <li><a href="#">Log in</a></li>
+    </ul>
+</nav>
