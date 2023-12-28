@@ -1,0 +1,30 @@
+body {
+    background-color: #FFFFEC;
+    display: block;
+    margin: 0;
+    padding: 0;
+}
+
+header {
+    width: 100vw;
+    height: 8vh;
+    background-color: #3559E0;
+    color: #0F2167;
+}
+
+header div.header-wrapper {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    height: 100%;
+    width: 100%;
+}
+
+/* header img {
+
+}
+
+header span {
+    width: auto;
+    font: 30px Arial, sans-serif;
+} */
