@@ -7,5 +7,5 @@ urlpatterns: list[URLPattern] = [
     path("", views.index, name="index"),
     path("check-new-code", views.check_new_code, name="check-new-code"),
     path("history", views.history, name="history"),
-    path("profile", views.profile, name="profile"),
+    path("code-sample/<int:id>", views.code_sample, name="code-sample"),
 ]

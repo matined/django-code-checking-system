@@ -2,17 +2,15 @@ from django.db import models
 
 
 class CodeSample(models.Model):
-    uid = models.CharField(max_length=20)
-    code = models.TextField()
+    code = models.CharField(max_length=200)
+    result_ai = models.CharField(max_length=200)
+    result_static = models.CharField(max_length=200)
     author = models.CharField(max_length=30)
     pub_date = models.DateTimeField()
-
-    def __str__(self):
-        return self.uid
 
 
 class Comment(models.Model):
     code_sample = models.ForeignKey(CodeSample, on_delete=models.CASCADE)
-    content = models.TextField()
+    content = models.CharField(max_length=200)
     author = models.CharField(max_length=30)
     pub_date = models.DateTimeField()

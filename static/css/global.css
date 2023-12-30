@@ -1,0 +1,11 @@
+body {
+    overflow: hidden;
+}
+
+.card {
+    width: 50vw;
+}
+
+.card textarea {
+    resize: none;
+}

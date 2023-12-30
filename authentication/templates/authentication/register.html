@@ -1,0 +1,13 @@
+{% extends "base/base.html" %}
+
+{% block content %}
+    <div class="position-absolute d-flex justify-content-center align-items-center w-100 h-100">
+        <form action="" method="POST">
+            {% csrf_token %}
+            <table>
+                {{ form.as_table }}
+            </table>
+            <button type="submit" class="btn btn-primary">Sign in</button>
+        </form>
+    </div>
+{% endblock %}

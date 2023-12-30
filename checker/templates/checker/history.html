@@ -1,0 +1,15 @@
+{% extends "base/base.html" %}
+
+{% block content %}
+
+    {% if user.is_authenticated %}
+        <div class="position-absolute d-flex justify-content-center align-items-center w-100 h-100">
+            <h1>#TODO</h1>
+        </div>
+    {% else %}
+        <div class="position-absolute d-flex justify-content-center align-items-center w-100 h-100">
+            <h1>Please <a class="text-reset fw-bold" href="/auth/login">login</a> to see your history.</h1>
+        </div>
+    {% endif %}
+
+{% endblock %}
