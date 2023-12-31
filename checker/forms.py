@@ -9,7 +9,7 @@ class CheckNewCodeForm(forms.Form):
         widget=forms.Textarea(
             attrs={
                 "placeholder": CODE_FORM_FIELD_PLACEHOLDER,
-                "class": "form-control",
+                "class": "form-control textarea-resize-none",
                 "rows": 12,
             },
         ),

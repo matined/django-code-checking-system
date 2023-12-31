@@ -3,8 +3,8 @@ from django.db import models
 
 class CodeSample(models.Model):
     code = models.CharField(max_length=200)
-    result_ai = models.CharField(max_length=200)
-    result_static = models.CharField(max_length=200)
+    result_ai = models.CharField(max_length=200, null=True)
+    result_static = models.CharField(max_length=200, null=True)
     author = models.CharField(max_length=30)
     pub_date = models.DateTimeField()
 

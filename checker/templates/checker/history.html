@@ -1,15 +1,47 @@
 {% extends "base/base.html" %}
 
+{% load static %}
+
 {% block content %}
 
     {% if user.is_authenticated %}
-        <div class="position-absolute d-flex justify-content-center align-items-center w-100 h-100">
-            <h1>#TODO</h1>
+
+        <div class="position-absolute d-flex flex-column align-items-center w-100 h-100">
+            <div class="list-group" id="list-group-history">
+                <h3 class="mb-3">History of your code checks</h3>
+                {% for code_sample in code_samples%}
+                    <a href="/code-sample/{{ code_sample.id }}" class="list-group-item list-group-item-action" aria-current="true">
+                        <div class="d-flex w-100 justify-content-between">
+                            <textarea class="form-control mb-2 w-75" readonly="readonly" rows="5" cols="14" id="list-group-history-code">
+                                {{ code_sample.code }}
+                            </textarea>
+                            <small>{{ code_sample.pub_date }}</small>
+                        </div>
+                        <p class="mb-1">
+                            AI Check:
+                            {% if code_sample.result_ai != None %}
+                                <img src="{% static "icons/checked.png" %}" class="d-block-inline" id="icon" height="25px">
+                            {% else %}
+                                <img src="{% static "icons/cancel.png" %}" class="d-block-inline" id="icon" height="25px">
+                            {% endif %}
+                            Static Check:
+                            {% if code_sample.result_static != None %}
+                                <img src="{% static "icons/checked.png" %}" class="d-block-inline" id="icon" height="25px">
+                            {% else %}
+                                <img src="{% static "icons/cancel.png" %}" class="d-block-inline" id="icon" height="25px">
+                            {% endif %}
+                        </p>
+                    </a>
+                {% endfor %}
+            </div>
         </div>
+
     {% else %}
+
         <div class="position-absolute d-flex justify-content-center align-items-center w-100 h-100">
             <h1>Please <a class="text-reset fw-bold" href="/auth/login">login</a> to see your history.</h1>
         </div>
+
     {% endif %}
 
 {% endblock %}

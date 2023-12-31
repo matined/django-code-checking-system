@@ -21,8 +21,16 @@ def check_new_code(request: HttpRequest) -> HttpResponse:
             if request.user.is_authenticated:
                 code_sample = CodeSample(
                     code=form.cleaned_data.get("code"),
-                    result_ai="#TODO",
-                    result_static="#TODO",
+                    result_ai=(
+                        form.cleaned_data.get("run_ai")
+                        if form.cleaned_data.get("run_ai")
+                        else None
+                    ),
+                    result_static=(
+                        form.cleaned_data.get("run_static")
+                        if form.cleaned_data.get("run_static")
+                        else None
+                    ),
                     author=request.user.username,
                     pub_date=datetime.now(),
                 )
@@ -60,7 +68,9 @@ def code_sample(request: HttpRequest, id: int) -> HttpResponse:
 
 
 def history(request: HttpRequest) -> HttpResponse:
-    code_samples = CodeSample.objects.order_by("-pub_date")
+    code_samples = CodeSample.objects.filter(author=request.user.username).order_by(
+        "-pub_date"
+    )
     context = {"code_samples": code_samples}
 
     return render(

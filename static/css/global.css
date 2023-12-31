@@ -1,11 +1,40 @@
-body {
+/* body {
     overflow: hidden;
+} */
+
+.textarea-resize-none {
+    resize: none;
 }
 
-.card {
-    width: 50vw;
+div#card-check-new-code.card {
+    width: 40vw;
 }
 
-.card textarea {
+div#card-register.card {
+    width: 30vw;
+}
+
+div#card-login.card {
+    width: 20vw;
+}
+
+div#card-change-password.card {
+    width: 30vw;
+}
+
+div#list-group-history.list-group {
+    width: 70vw;
+    margin-top: 100px;
+}
+
+div#list-group-history.list-group a:nth-child(even) {
+    background-color: #f8f9fa;
+}
+
+div#list-group-history.list-group .list-group-item-action:hover {
+    background-color: #0dcaf0;
+}
+
+textarea#list-group-history-code {
     resize: none;
 }

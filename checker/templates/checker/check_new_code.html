@@ -3,7 +3,7 @@
 {% block content %}
 
     <div class="position-absolute d-flex flex-column justify-content-center align-items-center w-100 h-100">
-        <div class="card">
+        <div class="card" id="card-check-new-code">
             <div class="card-body">
                 <form action="" method="POST">
                     {% csrf_token %}
@@ -16,7 +16,7 @@
                     <div class="mb-3 form-check">
                         {{ form.run_ai }}
                         <label class="form-check-label" for="{{ form.run_ai.auto_id }}">Run AI Check</label>
-                        <div id="runaiHelp" class="form-text">Ask AI model what's wrong or to be improved.</div>
+                        <div id="runaiHelp" class="form-text">Ask AI what's wrong or to be improved.</div>
                     </div>
 
                     <div class="mb-3 form-check">
@@ -32,7 +32,7 @@
                     {% endif %}
 
                     <button type="submit" class="btn btn-primary">Check</button>
-                    <button type="reset" class="btn btn-secordaty">Discard</button>
+                    <button type="reset" class="btn">Discard</button>
                 </form>
             </div>
         </div>

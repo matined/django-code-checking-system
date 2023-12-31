@@ -1,13 +1,59 @@
 {% extends "base/base.html" %}
 
 {% block content %}
-    <div class="position-absolute d-flex justify-content-center align-items-center w-100 h-100">
-        <form action="" method="POST">
-            {% csrf_token %}
-            <table>
-                {{ form.as_table }}
-            </table>
-            <button type="submit" class="btn btn-primary">Sign in</button>
-        </form>
+
+    <div class="position-absolute d-flex flex-column justify-content-center align-items-center w-100 h-100">
+        <div class="card" id="card-register">
+            <div class="card-body">
+                <h3 class="mb-5">Create a new account or <a href="/auth/login">log in</a></h3>
+                <form action="" method="POST">
+                    {% csrf_token %}
+                    <div class="mb-3 vw-30">
+                        <label for="{{ form.username.auto_id }}" class="form-label">Username</label>
+                        <div id="usernameHelp" class="form-text">Will be used to login later.</div>
+                        {{ form.username }}
+                    </div>
+
+                    <div class="mb-3 d-flex justify-content-between">
+                        <div class="mb-3">
+                            <label for="{{ form.email1.auto_id }}" class="form-label">Email</label>
+                            <div id="email1Help" class="form-text">Can be used to change a password later.</div>
+                            {{ form.email1 }}
+                        </div>
+
+                        <div class="mb-3 ms-4">
+                            <label for="{{ form.email2.auto_id }}" class="form-label">Confirm Email</label>
+                            <div id="email2Help" class="form-text">Must match the Email field.</div>
+                            {{ form.email2 }}
+                        </div>
+                    </div>
+
+                    <div class="mb-3 d-flex justify-content-between">
+                        <div class="mb-3">
+                            <label for="{{ form.password1.auto_id }}" class="form-label">Password</label>
+                            <div id="password1Help" class="form-text">Will be used to login later.</div>
+                            {{ form.password1 }}
+                        </div>
+
+                        <div class="mb-3 ms-4">
+                            <label for="{{ form.password2.auto_id }}" class="form-label">Confirm Password</label>
+                            <div id="password2Help" class="form-text">Must match the Password field.</div>
+                            {{ form.password2 }}
+                        </div>
+                    </div>
+
+
+                    {% if form.errors %}
+                        <div class="alert alert-danger m-5" role="alert">
+                            {{ form.errors }}
+                        </div>
+                    {% endif %}
+
+                    <button type="submit" class="btn btn-primary">Sign in</button>
+                    <button type="reset" class="btn">Discard</button>
+                </form>
+            </div>
+        </div>
     </div>
+
 {% endblock %}
