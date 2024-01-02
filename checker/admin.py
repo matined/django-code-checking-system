@@ -1,7 +1,8 @@
 from django.contrib import admin
 
-from .models import CodeSample, Comment
+from .models import Language, CodeSample, Note
 
 
+admin.site.register(Language)
 admin.site.register(CodeSample)
-admin.site.register(Comment)
+admin.site.register(Note)

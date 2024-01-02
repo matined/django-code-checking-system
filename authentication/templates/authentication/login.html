@@ -1,7 +1,7 @@
 {% extends "base/base.html" %}
 
 {% block content %}
-    <div class="position-absolute d-flex flex-column justify-content-center align-items-center w-100 h-100">
+    <div class="position-absolute d-flex flex-column justify-content-center align-items-center vw-100 vh-90">
         <div class="card" id="card-login">
             <div class="card-body">
                 <h3 class="mb-5">Login or <a href="/auth/register">sign in</a></h3>
@@ -14,10 +14,10 @@
 
                     <div class="mb-3">
                         <label for="{{ form.password.auto_id }}" class="form-label">Password</label>
-                        <div id="passwordHelp" class="form-text">
+                        {% comment %} <div id="passwordHelp" class="form-text">
                             Forgotten?
                             <a href="/auth/change-password">Change you password</a>
-                        </div>
+                        </div> {% endcomment %}
                         {{ form.password }}
                     </div>
 

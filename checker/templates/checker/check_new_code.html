@@ -2,7 +2,7 @@
 
 {% block content %}
 
-    <div class="position-absolute d-flex flex-column justify-content-center align-items-center w-100 h-100">
+    <div class="position-absolute d-flex flex-column justify-content-center align-items-center vw-100 vh-90">
         <div class="card" id="card-check-new-code">
             <div class="card-body">
                 <form action="" method="POST">
@@ -11,6 +11,12 @@
                         <label for="{{ form.code.auto_id }}" class="form-label">Code</label>
                         <div id="codeHelp" class="form-text">Paste your code sample here.</div>
                         {{ form.code }}
+                    </div>
+
+                    <div class="mb-3">
+                        <label class="form-label" for="{{ form.language.auto_id }}">Language</label>
+                        <div id="languageHelp" class="form-text">(Optional) Coding language used in the code sample.</div>
+                        {{ form.language }}
                     </div>
 
                     <div class="mb-3 form-check">

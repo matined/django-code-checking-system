@@ -4,16 +4,26 @@ from .constants import CODE_FORM_FIELD_PLACEHOLDER
 
 
 class CheckNewCodeForm(forms.Form):
+    def __init__(self, language_choices, *args, **kwargs):
+        super(CheckNewCodeForm, self).__init__(*args, **kwargs)
+        self.fields["language"].choices = language_choices
+
     code = forms.CharField(
-        label="Code",
         widget=forms.Textarea(
             attrs={
                 "placeholder": CODE_FORM_FIELD_PLACEHOLDER,
-                "class": "form-control textarea-resize-none",
+                "class": "form-control text-area-resize-none",
                 "rows": 12,
             },
         ),
         required=True,
+    )
+    language = forms.ChoiceField(
+        widget=forms.Select(
+            attrs={"class": "form-select w-50"},
+            choices=(),
+        ),
+        required=False,
     )
     run_ai = forms.BooleanField(
         widget=forms.CheckboxInput(attrs={"class": "form-check-input"}),
@@ -31,3 +41,22 @@ class CheckNewCodeForm(forms.Form):
 
         if not run_ai and not run_static:
             raise forms.ValidationError("None of the available checks is choosen!")
+
+
+class AddEditNote(forms.Form):
+    def __init__(self, text: str = None, *args, **kwargs):
+        super(forms.Form, self).__init__(*args, **kwargs)
+
+        if text:
+            self.fields["content"].widget.attrs["placeholder"] = "aaaa"
+
+    content = forms.CharField(
+        widget=forms.Textarea(
+            attrs={
+                "placeholder": "New note...",
+                "class": "form-control text-area-resize-none",
+                "rows": 5,
+            },
+        ),
+        required=True,
+    )

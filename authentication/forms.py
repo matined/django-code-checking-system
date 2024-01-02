@@ -63,13 +63,27 @@ class AuthenticationForm(AuthenticationForm):
 
 
 class PasswordChangeForm(PasswordChangeForm):
+    def __init__(self, verification_code: int, *args, **kwargs):
+        super(PasswordChangeForm, self).__init__(*args, **kwargs)
+        self.verification_code: int = verification_code
+
+    verification_code_email = forms.IntegerField(
+        required=True,
+        max_value=999999,
+        min_value=100000,
+        widget=forms.NumberInput(
+            attrs={
+                "autofocus": True,
+                "class": "form-control",
+            }
+        ),
+    )
     old_password = forms.CharField(
         label=_("Old password"),
         strip=False,
         widget=forms.PasswordInput(
             attrs={
                 "autocomplete": "current-password",
-                "autofocus": True,
                 "class": "form-control",
             }
         ),
@@ -89,3 +103,11 @@ class PasswordChangeForm(PasswordChangeForm):
             attrs={"autocomplete": "new-password", "class": "form-control"}
         ),
     )
+
+    def clean(self):
+        cleaned_data = super().clean()
+
+        if cleaned_data.get("verification_code_email") != self.verification_code:
+            raise forms.ValidationError(
+                "Verification code doesn't match the one send via email!"
+            )

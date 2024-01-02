@@ -2,8 +2,13 @@ from django.contrib import messages
 from django.contrib.auth import login, authenticate, logout, update_session_auth_hash
 from django.http import HttpRequest, HttpResponse, HttpResponseRedirect
 from django.shortcuts import render, redirect
+from django.core.mail import send_mail
+
+from random import randint
 
 from .forms import UserCreationForm, AuthenticationForm, PasswordChangeForm
+
+verification_code: int = None
 
 
 def register(request: HttpRequest) -> HttpResponse | HttpResponseRedirect:
@@ -43,7 +48,10 @@ def change_password(request: HttpRequest) -> HttpResponse | HttpResponseRedirect
         return redirect("/auth/login")
 
     if request.method == "POST":
-        form = PasswordChangeForm(request.user, request.POST)
+        global verification_code
+        form = PasswordChangeForm(
+            data=request.POST, user=request.user, verification_code=verification_code
+        )
         if form.is_valid():
             user = form.save()
             update_session_auth_hash(request, user)
@@ -52,5 +60,16 @@ def change_password(request: HttpRequest) -> HttpResponse | HttpResponseRedirect
         else:
             messages.error(request, "Please correct the error below.")
     else:
-        form = PasswordChangeForm(request.user)
+        verification_code = randint(100000, 999999)
+        send_mail(
+            "Code Checker: Verification Code",
+            f"Verification code: {verification_code}",
+            "system@codechecker.com",
+            [request.user.email],
+            fail_silently=False,
+        )
+        form = PasswordChangeForm(
+            user=request.user, verification_code=verification_code
+        )
+
     return render(request, "authentication/change_password.html", {"form": form})

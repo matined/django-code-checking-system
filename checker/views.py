@@ -2,8 +2,8 @@ from datetime import datetime
 from django.shortcuts import redirect, render
 from django.http import HttpRequest, HttpResponse
 
-from .models import CodeSample
-from .forms import CheckNewCodeForm
+from .models import CodeSample, Language, Note
+from .forms import CheckNewCodeForm, AddEditNote
 from .constants import CODE_FORM_FIELD_PLACEHOLDER
 
 
@@ -12,24 +12,24 @@ def index(request: HttpRequest) -> HttpResponse:
 
 
 def check_new_code(request: HttpRequest) -> HttpResponse:
-    form = CheckNewCodeForm()
+    form = CheckNewCodeForm(
+        language_choices=((lang.id, lang.name) for lang in Language.objects.all()),
+    )
     result = None
 
     if request.method == "POST":
-        form = CheckNewCodeForm(request.POST)
+        form = CheckNewCodeForm(
+            data=request.POST,
+            language_choices=((lang.id, lang.name) for lang in Language.objects.all()),
+        )
         if form.is_valid():
             if request.user.is_authenticated:
                 code_sample = CodeSample(
                     code=form.cleaned_data.get("code"),
-                    result_ai=(
-                        form.cleaned_data.get("run_ai")
-                        if form.cleaned_data.get("run_ai")
-                        else None
-                    ),
+                    language_id=form.cleaned_data.get("language"),
+                    result_ai=("#TODO" if form.cleaned_data.get("run_ai") else None),
                     result_static=(
-                        form.cleaned_data.get("run_static")
-                        if form.cleaned_data.get("run_static")
-                        else None
+                        "#TODO" if form.cleaned_data.get("run_static") else None
                     ),
                     author=request.user.username,
                     pub_date=datetime.now(),
@@ -37,12 +37,17 @@ def check_new_code(request: HttpRequest) -> HttpResponse:
                 code_sample.save()
                 return redirect(f"/code-sample/{code_sample.id}")
             else:
-                result = CodeSample(
+                code_sample = CodeSample(
                     code=form.cleaned_data.get("code"),
+                    language_id=form.cleaned_data.get("language"),
                     result_ai="#TODO",
                     result_static="#TODO",
-                    author=None,
-                    pub_date=None,
+                    pub_date=datetime.now(),
+                )
+                return render(
+                    request=request,
+                    template_name="checker/code_sample.html",
+                    context={"code_sample": code_sample},
                 )
         else:
             print(form.errors)
@@ -60,7 +65,25 @@ def check_new_code(request: HttpRequest) -> HttpResponse:
 
 def code_sample(request: HttpRequest, id: int) -> HttpResponse:
     code_sample = CodeSample.objects.get(id=id)
-    context = {"code_sample": code_sample}
+    notes = Note.objects.filter(code_sample=code_sample).order_by("-pub_date")
+    note_form = AddEditNote()
+
+    context = {
+        "code_sample": code_sample,
+        "notes": notes,
+        "note_form": note_form,
+    }
+
+    if request.method == "POST":
+        form = AddEditNote(data=request.POST)
+        if form.is_valid():
+            note = Note(
+                code_sample=code_sample,
+                content=form.cleaned_data.get("content"),
+                pub_date=datetime.now(),
+            )
+            note.save()
+            return redirect(f"/code-sample/{code_sample.id}")
 
     return render(
         request=request, template_name="checker/code_sample.html", context=context

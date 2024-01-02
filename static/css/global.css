@@ -1,16 +1,21 @@
-/* body {
-    overflow: hidden;
-} */
+body {
+    overflow-x: hidden;
+}
 
-.textarea-resize-none {
+.text-area-resize-none {
     resize: none;
+}
+
+div.position-absolute {
+    margin-top: 10vh;
 }
 
 div#card-check-new-code.card {
     width: 40vw;
 }
 
-div#card-register.card {
+div#card-register.card,
+div#card-change-password.card {
     width: 30vw;
 }
 
@@ -18,23 +23,46 @@ div#card-login.card {
     width: 20vw;
 }
 
-div#card-change-password.card {
-    width: 30vw;
-}
-
-div#list-group-history.list-group {
-    width: 70vw;
-    margin-top: 100px;
-}
-
 div#list-group-history.list-group a:nth-child(even) {
     background-color: #f8f9fa;
 }
 
-div#list-group-history.list-group .list-group-item-action:hover {
-    background-color: #0dcaf0;
+div#list-group-history.list-group .list-group-item:hover {
+    background-color: #E4F1FF;
 }
 
-textarea#list-group-history-code {
-    resize: none;
+div#list-group-history.list-group,
+div#card-code-sample.card,
+div#card-notes.card,
+div#card-code-sample.card {
+    width: 70vw;
+    margin-bottom: 30px;
+}
+
+div#code-sample-colored,
+div#code-sample-colored-header {
+    background-color: #e9ecef;
+    padding: .375rem .75rem;
+    border: 1px solid #ced4da;
+    border-radius: .25rem;
+    max-height: 50vh;
+    overflow: auto;
+}
+
+div#code-sample-colored-header {
+    overflow: hidden;
+    max-height: 20vh;
+}
+
+div#code-sample-colored div.highlight,
+div#code-sample-colored-header div.highlight {
+    background: #e9ecef !important;
+}
+
+div#list-group-history.list-group .list-group-item div div:nth-child(2) span:nth-child(odd) {
+    background-color: #9400FF;
+}
+
+div#list-group-history.list-group .list-group-item div div:nth-child(2) span:nth-child(even) {
+    background-color: #27005D;
 }
