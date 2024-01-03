@@ -41,22 +41,3 @@ class CheckNewCodeForm(forms.Form):
 
         if not run_ai and not run_static:
             raise forms.ValidationError("None of the available checks is choosen!")
-
-
-class AddEditNote(forms.Form):
-    def __init__(self, text: str = None, *args, **kwargs):
-        super(forms.Form, self).__init__(*args, **kwargs)
-
-        if text:
-            self.fields["content"].widget.attrs["placeholder"] = "aaaa"
-
-    content = forms.CharField(
-        widget=forms.Textarea(
-            attrs={
-                "placeholder": "New note...",
-                "class": "form-control text-area-resize-none",
-                "rows": 5,
-            },
-        ),
-        required=True,
-    )

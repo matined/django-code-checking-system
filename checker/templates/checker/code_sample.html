@@ -64,42 +64,25 @@
               New Note
             </button>
           </div>
-          <div class="list-group-flush w-100" id="list-group-notes">
-
-            {% for note in notes %}
-              <div class="list-group-item" aria-current="true">
-                <div class="d-flex w-100 justify-content-between">
-                  <div class="w-75">
-                    <textarea class="form-control text-area-resize-none" rows="3" readonly="readonly">{{ note.content }}</textarea>
-                  </div>
-                  <div class="d-flex flex-column justify-content-between align-items-end">
-                    <small>{{ note.pub_date }}</small>
-                    <button type="button" class="btn btn-secondary" data-bs-toggle="modal" data-bs-target="#edit-note-modal">
-                      Edit
-                    </button>
-                  </div>
-                </div>
-              </div>
-            {% endfor %}
-          </div>
+          <div class="list-group-flush w-100" id="list-group-notes"></div>
         </div>
       </div>
 
       <div class="modal fade" id="add-note-modal" tabindex="-1" aria-labelledby="exampleModalLabel" aria-hidden="true">
         <div class="modal-dialog">
           <div class="modal-content">
-            <form action="" method="POST">
+            <form action="" method="POST" id="form-add-note">
               {% csrf_token %}
               <div class="modal-header">
                 <h5 class="modal-title" id="exampleModalLabel">Add Note</h5>
                 <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
               </div>
               <div class="modal-body">
-                {{ note_form.content }}
+                <textarea class="form-control text-area-resize-none" rows="5" placeholder="New note..."></textarea>
               </div>
               <div class="modal-footer">
                 <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Close</button>
-                <input type="submit" class="btn btn-primary" value="Add">
+                <input type="submit" class="btn btn-primary" data-bs-dismiss="modal" value="Add">
               </div>
             </form>
           </div>
@@ -109,20 +92,98 @@
       <div class="modal fade" id="edit-note-modal" tabindex="-1" aria-labelledby="exampleModalLabel" aria-hidden="true">
         <div class="modal-dialog">
           <div class="modal-content">
-            <div class="modal-header">
-              <h5 class="modal-title" id="exampleModalLabel">Edit Note</h5>
-              <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
-            </div>
-            <div class="modal-body">
-              <textarea class="form-control text-area-resize-none" rows="5">{{ note.content }}</textarea>
-            </div>
-            <div class="modal-footer">
-              <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Close</button>
-              <button type="button" class="btn btn-primary">Save</button>
-            </div>
+            <form action="" method="POST" id="form-edit-note">
+              {% csrf_token %}
+              <div class="modal-header">
+                <h5 class="modal-title" id="exampleModalLabel">Edit Note</h5>
+                <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+              </div>
+              <div class="modal-body">
+                <textarea class="form-control text-area-resize-none" rows="5" id="form-edit-text-area"></textarea>
+              </div>
+              <div class="modal-footer">
+                <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Close</button>
+                <button type="submit" class="btn btn-primary" data-bs-dismiss="modal">Edit</button>
+              </div>
+            </form>
           </div>
         </div>
       </div>
+
+      <script>
+        var currently_editted_note_id = null;
+
+        function getNotes() {
+          $.ajax({
+            url: '{% url "note-api" %}?code_sample={{ code_sample.id }}',
+            success: function(data) {
+              $('#list-group-notes').html(
+                data.map(note =>
+                  `<div class="list-group-item" aria-current="true">
+                    <div class="d-flex w-100 justify-content-between">
+                      <div class="w-75">
+                        <textarea class="form-control text-area-resize-none" rows="3" readonly="readonly">${note.content}</textarea>
+                      </div>
+                      <div class="d-flex flex-column justify-content-between align-items-end">
+                        <small>${note.pub_date}</small>
+                        <button type="button" class="btn btn-secondary" data-bs-toggle="modal" data-bs-target="#edit-note-modal" onClick="currently_editted_note_id=${note.id}">
+                          Edit
+                        </button>
+                      </div>
+                    </div>
+                  </div>`
+                ).join('')
+              );
+            }
+          });
+        }
+
+        function setupAddNote() {
+          $("#form-add-note").submit(function(e) {
+            e.preventDefault();
+            $.ajax({
+              type: 'POST',
+              url: '{% url "note-api" %}?code_sample={{ code_sample.id }}',
+              contentType: 'application/json',
+              beforeSend: function(xhr) {
+                xhr.setRequestHeader('X-CSRFToken', '{{ csrf_token }}')
+              },
+              data: JSON.stringify({
+                code_sample: null,
+                content: $("textarea", this).val(),
+              })
+            });
+            setTimeout(getNotes, 100);
+          });
+        }
+
+        function setupEditNote() {
+          $("#form-edit-note").submit(function(e) {
+            e.preventDefault();
+            $.ajax({
+              type: 'PUT',
+              url: '{% url "note-api" %}?code_sample={{ code_sample.id }}',
+              contentType: 'application/json',
+              beforeSend: function(xhr) {
+                xhr.setRequestHeader('X-CSRFToken', '{{ csrf_token }}')
+              },
+              data: JSON.stringify({
+                id: currently_editted_note_id,
+                code_sample: null,
+                content: $('textarea', this).val(),
+              })
+            });
+            setTimeout(getNotes, 100);
+          });
+        }
+
+        $(document).ready(function() {
+          getNotes();
+          setupAddNote();
+          setupEditNote();
+        });
+
+      </script>
 
     {% else %}
 

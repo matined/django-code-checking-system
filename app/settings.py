@@ -37,8 +37,9 @@ INSTALLED_APPS = [
     "django.contrib.sessions",
     "django.contrib.messages",
     "django.contrib.staticfiles",
-    "checker.apps.CheckerConfig",
-    "authentication.apps.AuthenticationConfig",
+    "checker",
+    "authentication",
+    "rest_framework",
 ]
 
 MIDDLEWARE = [

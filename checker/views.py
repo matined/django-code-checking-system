@@ -1,9 +1,14 @@
 from datetime import datetime
 from django.shortcuts import redirect, render
 from django.http import HttpRequest, HttpResponse
+from rest_framework.views import APIView
+from rest_framework.response import Response
+from rest_framework import status
+from rest_framework import permissions
 
 from .models import CodeSample, Language, Note
-from .forms import CheckNewCodeForm, AddEditNote
+from .forms import CheckNewCodeForm
+from .serializers import NoteSerializer
 from .constants import CODE_FORM_FIELD_PLACEHOLDER
 
 
@@ -65,25 +70,7 @@ def check_new_code(request: HttpRequest) -> HttpResponse:
 
 def code_sample(request: HttpRequest, id: int) -> HttpResponse:
     code_sample = CodeSample.objects.get(id=id)
-    notes = Note.objects.filter(code_sample=code_sample).order_by("-pub_date")
-    note_form = AddEditNote()
-
-    context = {
-        "code_sample": code_sample,
-        "notes": notes,
-        "note_form": note_form,
-    }
-
-    if request.method == "POST":
-        form = AddEditNote(data=request.POST)
-        if form.is_valid():
-            note = Note(
-                code_sample=code_sample,
-                content=form.cleaned_data.get("content"),
-                pub_date=datetime.now(),
-            )
-            note.save()
-            return redirect(f"/code-sample/{code_sample.id}")
+    context = {"code_sample": code_sample}
 
     return render(
         request=request, template_name="checker/code_sample.html", context=context
@@ -99,3 +86,46 @@ def history(request: HttpRequest) -> HttpResponse:
     return render(
         request=request, template_name="checker/history.html", context=context
     )
+
+
+class NoteApiView(APIView):
+    # add permission to check if user is authenticated
+    permission_classes = [permissions.IsAuthenticated]
+
+    def get(self, request, *args, **kwargs):
+        user_code_samples = CodeSample.objects.filter(
+            author=request.user.username, id=request.query_params.get("code_sample")
+        )
+        notes = Note.objects.filter(code_sample__in=user_code_samples).order_by(
+            "-pub_date"
+        )
+        serializer = NoteSerializer(notes, many=True)
+
+        return Response(serializer.data, status=status.HTTP_200_OK)
+
+    def post(self, request, *args, **kwargs):
+        data = {
+            "code_sample": request.query_params.get("code_sample"),
+            "content": request.data.get("content"),
+            "pub_date": datetime.now(),
+        }
+        serializer = NoteSerializer(data=data)
+        if serializer.is_valid():
+            serializer.save()
+            return Response(serializer.data, status=status.HTTP_201_CREATED)
+
+        return Response(serializer.errors, status=status.HTTP_400_BAD_REQUEST)
+
+    def put(self, request, *args, **kwargs):
+        data = {
+            "code_sample": request.query_params.get("code_sample"),
+            "content": request.data.get("content"),
+            "pub_date": datetime.now(),
+        }
+        note = Note.objects.get(id=request.data.get("id"))
+        serializer = NoteSerializer(note, data=data)
+        if serializer.is_valid():
+            serializer.save()
+            return Response(serializer.data, status=status.HTTP_200_OK)
+
+        return Response(serializer.errors, status=status.HTTP_400_BAD_REQUEST)
