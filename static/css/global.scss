@@ -23,12 +23,14 @@ div#card-login.card {
     width: 20vw;
 }
 
-div#list-group-history.list-group a:nth-child(even) {
-    background-color: #f8f9fa;
-}
+div#list-group-history.list-group {
+    a:nth-child(even) {
+        background-color: #f8f9fa;
+    }
 
-div#list-group-history.list-group .list-group-item:hover {
-    background-color: #E4F1FF;
+    .list-group-item:hover {
+        background-color: #E4F1FF;
+    }
 }
 
 div#list-group-history.list-group,
@@ -59,10 +61,12 @@ div#code-sample-colored-header div.highlight {
     background: #e9ecef !important;
 }
 
-div#list-group-history.list-group .list-group-item div div:nth-child(2) span:nth-child(odd) {
-    background-color: #9400FF;
-}
+div#list-group-history.list-group .list-group-item div div:nth-child(2) {
+    span:nth-child(odd) {
+        background-color: #9400FF;
+    }
 
-div#list-group-history.list-group .list-group-item div div:nth-child(2) span:nth-child(even) {
-    background-color: #27005D;
+    span:nth-child(even) {
+        background-color: #27005D;
+    }
 }

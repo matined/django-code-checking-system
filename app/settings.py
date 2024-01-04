@@ -40,6 +40,7 @@ INSTALLED_APPS = [
     "checker",
     "authentication",
     "rest_framework",
+    "compressor",
 ]
 
 MIDDLEWARE = [
@@ -131,3 +132,11 @@ DEFAULT_AUTO_FIELD = "django.db.models.BigAutoField"
 LOGIN_REDIRECT_URL = ""
 
 EMAIL_BACKEND = "django.core.mail.backends.console.EmailBackend"
+
+STATICFILES_FINDERS = (
+    "django.contrib.staticfiles.finders.FileSystemFinder",
+    "django.contrib.staticfiles.finders.AppDirectoriesFinder",
+    "compressor.finders.CompressorFinder",
+)
+COMPRESS_ROOT = BASE_DIR / "static"
+COMPRESS_PRECOMPILERS = (("text/x-scss", "django_libsass.SassCompiler"),)

@@ -1,4 +1,6 @@
 django==5.0
+django-libsass==0.9
+django_compressor==4.4
 djangorestframework==3.14.0
 djangorestframework-xml==2.0.0
 pre-commit==3.6.0
