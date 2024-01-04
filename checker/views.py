@@ -5,6 +5,8 @@ from rest_framework.views import APIView
 from rest_framework.response import Response
 from rest_framework import status
 from rest_framework import permissions
+from rest_framework_xml.renderers import XMLRenderer
+from rest_framework.renderers import JSONRenderer
 
 from .models import CodeSample, Language, Note
 from .forms import CheckNewCodeForm
@@ -91,8 +93,9 @@ def history(request: HttpRequest) -> HttpResponse:
 class NoteApiView(APIView):
     # add permission to check if user is authenticated
     permission_classes = [permissions.IsAuthenticated]
+    renderer_classes = (JSONRenderer, XMLRenderer)
 
-    def get(self, request, *args, **kwargs):
+    def get(self, request, format=None, *args, **kwargs):
         user_code_samples = CodeSample.objects.filter(
             author=request.user.username, id=request.query_params.get("code_sample")
         )
