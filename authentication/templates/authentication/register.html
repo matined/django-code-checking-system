@@ -12,6 +12,9 @@
                         <label for="{{ form.username.auto_id }}" class="form-label">Username</label>
                         <div id="usernameHelp" class="form-text">Will be used to login later.</div>
                         {{ form.username }}
+                        {% if form.username.errors %}
+                            <div class="alert alert-danger mt-2 pb-0" role="alert">{{ form.username.errors }}</div>
+                        {% endif %}
                     </div>
 
                     <div class="mb-3 d-flex justify-content-between">
@@ -27,6 +30,14 @@
                             {{ form.email2 }}
                         </div>
                     </div>
+                    <div>
+                        {% if form.email1.errors %}
+                            <div class="alert alert-danger mt-2 pb-0" role="alert">{{ form.email1.errors }}</div>
+                        {% endif %}
+                        {% if form.email2.errors %}
+                            <div class="alert alert-danger mt-2 pb-0" role="alert">{{ form.email2.errors }}</div>
+                        {% endif %}
+                    </div>
 
                     <div class="mb-3 d-flex justify-content-between">
                         <div class="mb-3">
@@ -35,19 +46,20 @@
                             {{ form.password1 }}
                         </div>
 
-                        <div class="mb-3 ms-4">
+                        <div class="mb-1 ms-4">
                             <label for="{{ form.password2.auto_id }}" class="form-label">Confirm Password</label>
                             <div id="password2Help" class="form-text">Must match the Password field.</div>
                             {{ form.password2 }}
                         </div>
                     </div>
-
-
-                    {% if form.errors %}
-                        <div class="alert alert-danger m-5" role="alert">
-                            {{ form.errors }}
-                        </div>
-                    {% endif %}
+                    <div>
+                        {% if form.password1.errors %}
+                            <div class="alert alert-danger mt-2 pb-0" role="alert">{{ form.password1.errors }}</div>
+                        {% endif %}
+                        {% if form.password2.errors %}
+                            <div class="alert alert-danger pb-0" role="alert">{{ form.password2.errors }}</div>
+                        {% endif %}
+                    </div>
 
                     <button type="submit" class="btn btn-primary">Sign in</button>
                     <button type="reset" class="btn">Discard</button>

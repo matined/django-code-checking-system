@@ -1,3 +1,10 @@
+$color-one: #f8f9fa;
+$color-two: #E4F1FF;
+$color-three: #e9ecef;
+$color-four: #ced4da;
+$color-label-one: #9400FF;
+$color-label-two: #27005D;
+
 body {
     overflow-x: hidden;
 }
@@ -25,11 +32,11 @@ div#card-login.card {
 
 div#list-group-history.list-group {
     a:nth-child(even) {
-        background-color: #f8f9fa;
+        background-color: $color-one;
     }
 
     .list-group-item:hover {
-        background-color: #E4F1FF;
+        background-color: $color-two;
     }
 }
 
@@ -43,9 +50,9 @@ div#card-code-sample.card {
 
 div#code-sample-colored,
 div#code-sample-colored-header {
-    background-color: #e9ecef;
+    background-color: $color-three;
     padding: .375rem .75rem;
-    border: 1px solid #ced4da;
+    border: 1px solid $color-four;
     border-radius: .25rem;
     max-height: 50vh;
     overflow: auto;
@@ -58,15 +65,51 @@ div#code-sample-colored-header {
 
 div#code-sample-colored div.highlight,
 div#code-sample-colored-header div.highlight {
-    background: #e9ecef !important;
+    background: $color-three !important;
 }
 
 div#list-group-history.list-group .list-group-item div div:nth-child(2) {
     span:nth-child(odd) {
-        background-color: #9400FF;
+        background-color: $color-label-one;
     }
 
     span:nth-child(even) {
-        background-color: #27005D;
+        background-color: $color-label-two;
+    }
+}
+
+@media only screen and (max-device-height: 768px) {
+    div#card-check-new-code.card {
+        width: 85vw;
+    }
+
+    div#card-check-new-code.card form div {
+        display: flex;
+        flex-wrap: wrap;
+        flex-direction: row;
+        justify-content: space-evenly;
+        align-items: flex-start;
+
+        div {
+            flex-direction: column;
+            justify-content: space-between;
+        }
+
+        div div.form-check {
+            display: block;
+        }
+
+        div div#buttons {
+            flex-direction: row;
+        }
+    }
+
+    div#card-login.card {
+        width: 40vw;
+    }
+
+    div#card-register.card,
+    div#card-change-password.card {
+        width: 60vw;
     }
 }

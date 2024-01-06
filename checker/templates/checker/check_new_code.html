@@ -4,8 +4,8 @@
 
     <div class="position-absolute d-flex flex-column justify-content-center align-items-center vw-100 vh-90">
         <div class="card" id="card-check-new-code">
-            <div class="card-body">
-                <form action="" method="POST">
+            <form action="" method="POST">
+                <div class="card-body">
                     {% csrf_token %}
                     <div class="mb-3">
                         <label for="{{ form.code.auto_id }}" class="form-label">Code</label>
@@ -13,34 +13,38 @@
                         {{ form.code }}
                     </div>
 
-                    <div class="mb-3">
-                        <label class="form-label" for="{{ form.language.auto_id }}">Language</label>
-                        <div id="languageHelp" class="form-text">(Optional) Coding language used in the code sample.</div>
-                        {{ form.language }}
-                    </div>
-
-                    <div class="mb-3 form-check">
-                        {{ form.run_ai }}
-                        <label class="form-check-label" for="{{ form.run_ai.auto_id }}">Run AI Check</label>
-                        <div id="runaiHelp" class="form-text">Ask AI what's wrong or to be improved.</div>
-                    </div>
-
-                    <div class="mb-3 form-check">
-                        {{ form.run_static }}
-                        <label class="form-check-label" for="{{ form.run_static.auto_id }}">Run Static Check</label>
-                        <div id="runstaticHelp" class="form-text">Run static code analysis using flake8.</div>
-                    </div>
-
-                    {% if form.errors %}
-                        <div class="alert alert-danger m-5" role="alert">
-                            {{ form.errors }}
+                    <div>
+                        <div class="mb-3">
+                            <label class="form-label" for="{{ form.language.auto_id }}">Language</label>
+                            <div id="languageHelp" class="form-text">Coding language used in the code sample.</div>
+                            {{ form.language }}
                         </div>
-                    {% endif %}
 
-                    <button type="submit" class="btn btn-primary">Check</button>
-                    <button type="reset" class="btn">Discard</button>
-                </form>
-            </div>
+                        <div class="mb-3 form-check">
+                            {{ form.run_ai }}
+                            <label class="form-check-label" for="{{ form.run_ai.auto_id }}">Run AI Check</label>
+                            <div id="runaiHelp" class="form-text">Ask AI what's wrong or to be improved.</div>
+                        </div>
+
+                        <div class="mb-3 form-check">
+                            {{ form.run_static }}
+                            <label class="form-check-label" for="{{ form.run_static.auto_id }}">Run Static Check</label>
+                            <div id="runstaticHelp" class="form-text">Run static code analysis using flake8.</div>
+                        </div>
+
+                        <div id="buttons">
+                            <button type="submit" class="btn btn-primary">Check</button>
+                            <button type="reset" class="btn">Discard</button>
+                        </div>
+
+                        {% if form.non_field_errors %}
+                            <div class="alert alert-danger" role="alert">
+                                {{ form.non_field_errors  }}
+                            </div>
+                        {% endif %}
+                    </div>
+                </div>
+            </form>
         </div>
 
         {% if not user.is_authenticated %}

@@ -14,16 +14,12 @@
 
                     <div class="mb-3">
                         <label for="{{ form.password.auto_id }}" class="form-label">Password</label>
-                        {% comment %} <div id="passwordHelp" class="form-text">
-                            Forgotten?
-                            <a href="/auth/change-password">Change you password</a>
-                        </div> {% endcomment %}
                         {{ form.password }}
                     </div>
 
-                    {% if form.errors %}
-                        <div class="alert alert-danger m-5" role="alert">
-                            {{ form.errors }}
+                    {% if form.non_field_errors  %}
+                        <div class="alert alert-danger pt-1" role="alert">
+                            {{ form.non_field_errors }}
                         </div>
                     {% endif %}
 

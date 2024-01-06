@@ -48,6 +48,12 @@ class UserCreationForm(UserCreationForm):
             user.save()
         return user
 
+    def clean(self):
+        cleaned_data = super().clean()
+
+        if cleaned_data.get("email1") != cleaned_data.get("email2"):
+            raise forms.ValidationError({"email2": ["Emails do not match."]})
+
 
 class AuthenticationForm(AuthenticationForm):
     username = UsernameField(
@@ -109,5 +115,9 @@ class PasswordChangeForm(PasswordChangeForm):
 
         if cleaned_data.get("verification_code_email") != self.verification_code:
             raise forms.ValidationError(
-                "Verification code doesn't match the one send via email!"
+                {
+                    "verification_code_email": [
+                        "Verification code doesn't match the one send via email!"
+                    ]
+                }
             )

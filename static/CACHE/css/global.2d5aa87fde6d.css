@@ -1,0 +1,80 @@
+/* line 8, static/css/global.scss */
+body {
+  overflow-x: hidden; }
+
+/* line 12, static/css/global.scss */
+.text-area-resize-none {
+  resize: none; }
+
+/* line 16, static/css/global.scss */
+div.position-absolute {
+  margin-top: 10vh; }
+
+/* line 20, static/css/global.scss */
+div#card-check-new-code.card {
+  width: 40vw; }
+
+/* line 24, static/css/global.scss */
+div#card-register.card,
+div#card-change-password.card {
+  width: 30vw; }
+
+/* line 29, static/css/global.scss */
+div#card-login.card {
+  width: 20vw; }
+
+/* line 34, static/css/global.scss */
+div#list-group-history.list-group a:nth-child(even) {
+  background-color: #f8f9fa; }
+
+/* line 38, static/css/global.scss */
+div#list-group-history.list-group .list-group-item:hover {
+  background-color: #E4F1FF; }
+
+/* line 43, static/css/global.scss */
+div#list-group-history.list-group,
+div#card-code-sample.card,
+div#card-notes.card,
+div#card-code-sample.card {
+  width: 70vw;
+  margin-bottom: 30px; }
+
+/* line 51, static/css/global.scss */
+div#code-sample-colored,
+div#code-sample-colored-header {
+  background-color: #e9ecef;
+  padding: .375rem .75rem;
+  border: 1px solid #ced4da;
+  border-radius: .25rem;
+  max-height: 50vh;
+  overflow: auto; }
+
+/* line 61, static/css/global.scss */
+div#code-sample-colored-header {
+  overflow: hidden;
+  max-height: 20vh; }
+
+/* line 66, static/css/global.scss */
+div#code-sample-colored div.highlight,
+div#code-sample-colored-header div.highlight {
+  background: #e9ecef !important; }
+
+/* line 72, static/css/global.scss */
+div#list-group-history.list-group .list-group-item div div:nth-child(2) span:nth-child(odd) {
+  background-color: #9400FF; }
+
+/* line 76, static/css/global.scss */
+div#list-group-history.list-group .list-group-item div div:nth-child(2) span:nth-child(even) {
+  background-color: #27005D; }
+
+@media only screen and (max-device-height: 768px) {
+  /* line 82, static/css/global.scss */
+  div#card-check-new-code.card {
+    width: 85vw; }
+  /* line 86, static/css/global.scss */
+  div#card-check-new-code.card form div {
+    display: flex;
+    flex-wrap: wrap;
+    flex-direction: row;
+    justify-content: flex-start;
+    align-items: flex-start; } }
